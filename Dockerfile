@@ -34,5 +34,10 @@ RUN useradd -m $user -u $uid -G users,sudo,docker -s /bin/zsh
 USER $user
 RUN mkdir ~/.ssh && curl -fsL https://github.com/$github_user.keys > ~/.ssh/authorized_keys && chmod 0700 ~/.ssh && chmod 0600 ~/.ssh/authorized_keys
 
-#USER root
+RUN curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
+# fix shenanigans later with volumes
+USER root
+COPY vimrc /home/eman/.vimrc
+RUN chown eman:eman /home/eman/.vimrc
